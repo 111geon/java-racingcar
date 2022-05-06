@@ -7,9 +7,10 @@ import app.logic.exception.InputCarNameException;
 public class Race {
     RacingCar[] racingCars;
     int raceCount;
+    static Receiver receiver = new Receiver();
+    static RaceController raceController = new RaceController();
 
     public void setRace() {
-        Receiver receiver = new Receiver();
         String[] carNames = receiver.askCarNames();
         try {
             this.racingCars = buildRacingCars(carNames);
@@ -30,7 +31,6 @@ public class Race {
 
     public void startRace() {
         System.out.println("\n실행 결과");
-        RaceController raceController = new RaceController();
         raceController.printStatus(this.racingCars);
         for (int i=0; i<raceCount; i++) {
             raceController.proceedRace(this.racingCars);
@@ -39,5 +39,7 @@ public class Race {
     }
 
     public void finishRace() {
+        String[] winners = raceController.getWinners(this.racingCars);
+        raceController.printWinners(winners);
     }
 }

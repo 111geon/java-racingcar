@@ -9,4 +9,8 @@ public class RacingCar {
         this.name = Validator.validateCarName(name);
         this.position = 1;
     }
+
+    public void increasePosition() {
+        this.position += 1;
+    }
 }
