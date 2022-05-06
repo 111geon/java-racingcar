@@ -1,5 +1,6 @@
 package app.model;
 
+import app.logic.RaceController;
 import app.logic.Receiver;
 import app.logic.exception.InputCarNameException;
 
@@ -8,10 +9,11 @@ public class Race {
     int raceCount;
 
     public void setRace() {
-        String[] carNames = Receiver.askCarNames();
+        Receiver receiver = new Receiver();
+        String[] carNames = receiver.askCarNames();
         try {
             this.racingCars = buildRacingCars(carNames);
-            this.raceCount = Receiver.askRaceCount();
+            this.raceCount = receiver.askRaceCount();
         } catch(InputCarNameException e) {
             System.err.println(e.getMessage());
             setRace();
@@ -27,8 +29,15 @@ public class Race {
     }
 
     public void startRace() {
+        System.out.println("\n실행 결과");
+        RaceController raceController = new RaceController();
+        raceController.printStatus(this.racingCars);
+        for (int i=0; i<raceCount; i++) {
+            raceController.proceedRace(this.racingCars);
+            raceController.printStatus(this.racingCars);
+        }
     }
 
-    public void printResult() {
+    public void finishRace() {
     }
 }

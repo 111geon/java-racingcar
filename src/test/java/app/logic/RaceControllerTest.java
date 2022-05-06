@@ -1,20 +1,16 @@
-package app.model;
+package app.logic;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RaceTest {
+class RaceControllerTest {
 
     @Test
-    void setRace() {
+    void proceedRace() {
     }
 
     @Test
-    void startRace() {
-    }
-
-    @Test
-    void finishRace() {
+    void printStatus() {
     }
 }
