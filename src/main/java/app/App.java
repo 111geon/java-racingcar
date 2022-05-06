@@ -1,6 +1,6 @@
 package app;
 
-import app.logic.Race;
+import app.model.Race;
 
 public class App {
     public static void main(String[] args) {
