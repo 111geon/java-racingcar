@@ -1,45 +1,37 @@
 package app.model;
 
-import app.logic.RaceController;
-import app.logic.Receiver;
-import app.logic.exception.InputCarNameException;
+import java.util.*;
 
 public class Race {
-    RacingCar[] racingCars;
-    int raceCount;
-    static Receiver receiver = new Receiver();
-    static RaceController raceController = new RaceController();
+    private List<RacingCar> racingCars;
 
-    public void setRace() {
-        String[] carNames = receiver.askCarNames();
-        try {
-            this.racingCars = buildRacingCars(carNames);
-            this.raceCount = receiver.askRaceCount();
-        } catch(InputCarNameException e) {
-            System.err.println(e.getMessage());
-            setRace();
-        }
+    public void setRace(List<String> carNames) {
+        List<RacingCar> racingCars = new ArrayList<>();
+        for (String carName : carNames) racingCars.add(new RacingCar(carName));
+        this.racingCars = racingCars;
     }
 
-    private RacingCar[] buildRacingCars(String[] carNames) {
-        RacingCar[] racingCars = new RacingCar[carNames.length];
-        for (int i=0; i<carNames.length; i++) {
-            racingCars[i] = new RacingCar(carNames[i]);
-        }
+    public List<RacingCar> getRacingCars() {
         return racingCars;
     }
 
-    public void startRace() {
-        System.out.println("\n실행 결과");
-        raceController.printStatus(this.racingCars);
-        for (int i=0; i<raceCount; i++) {
-            raceController.proceedRace(this.racingCars);
-            raceController.printStatus(this.racingCars);
+    public void proceedRace() {
+        for (RacingCar car: racingCars) {
+            car.tryMoving();
         }
     }
 
-    public void finishRace() {
-        String[] winners = raceController.getWinners(this.racingCars);
-        raceController.printWinners(winners);
+    public List<String> getWinners() {
+        List<String> winners = new ArrayList<>();
+        int maxPosition = 0;
+        for (RacingCar car: racingCars) maxPosition = Math.max(car.getCarPosition(), maxPosition);
+        for (RacingCar car: racingCars) appendWinner(winners, car, maxPosition);
+        return winners;
+    }
+
+    private void appendWinner(List<String> winners, RacingCar car, int maxPosition) {
+        if (car.getCarPosition() == maxPosition) {
+            winners.add(car.getCarName());
+        }
     }
 }
