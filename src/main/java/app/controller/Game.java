@@ -29,7 +29,7 @@ public class Game {
         try {
             List<String> carNames = receiver.askCarNames();
             race.setRace(carNames);
-            this.gameCount = receiver.askGameCount();
+            gameCount = receiver.askGameCount();
         } catch(RacingCar.InputCarNameException error) {
             System.err.println(error.getMessage());
             setGame();
@@ -56,7 +56,7 @@ public class Game {
         viewer.printWinners(winners);
     }
 
-    private List<String> racingCarsToNameList(List<RacingCar> racingCars) {
+    static List<String> racingCarsToNameList(List<RacingCar> racingCars) {
         List<String> nameList = new ArrayList<>();
         for (RacingCar racingCar: racingCars) {
             nameList.add(racingCar.getCarName());
@@ -64,7 +64,7 @@ public class Game {
         return nameList;
     }
 
-    private List<Integer> racingCarsToPositionList(List<RacingCar> racingCars) {
+    static List<Integer> racingCarsToPositionList(List<RacingCar> racingCars) {
         List<Integer> positionList = new ArrayList<>();
         for (RacingCar racingCar: racingCars) {
             positionList.add(racingCar.getCarPosition());
