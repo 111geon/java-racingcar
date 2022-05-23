@@ -30,7 +30,7 @@ public class Race {
     }
 
     private void appendWinner(List<String> winners, RacingCar car, int maxPosition) {
-        if (car.getCarPosition() == maxPosition) {
+        if (car.isWinner(maxPosition)) {
             winners.add(car.getCarName());
         }
     }

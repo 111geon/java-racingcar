@@ -5,7 +5,7 @@ import java.util.*;
 public class Receiver {
     static Scanner sc = new Scanner(System.in);
 
-    public List<String> askCarNames() {
+    public static List<String> askCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).");
         List<String> carNames = Arrays.asList(sc.nextLine().split(","));
         try {
@@ -17,7 +17,7 @@ public class Receiver {
         }
     }
 
-    public int askGameCount() {
+    public static int askGameCount() {
         System.out.println("시도할 회수는 몇회인가요?");
         String raceCount = sc.nextLine();
         try {
@@ -28,7 +28,7 @@ public class Receiver {
         }
     }
 
-    private int parseRaceCount(String raceCountInput) {
+    private static int parseRaceCount(String raceCountInput) {
         int raceCount;
         try {
             raceCount = Integer.parseInt(raceCountInput);
@@ -39,13 +39,13 @@ public class Receiver {
         return raceCount;
     }
 
-    private void validateRaceCount(int raceCount) {
+    private static void validateRaceCount(int raceCount) {
         if (raceCount < 1) {
             throw new InputRaceCountException("시도 횟수는 0 또는 음수일 수 없습니다.");
         }
     }
 
-    private void validateCarNames(List<String> carNames) {
+    private static void validateCarNames(List<String> carNames) {
         if (carNames.size() < 2) {
             throw new InputCarNamesException("경주를 시작하려면 두 대 이상의 차가 필요합니다.");
         }

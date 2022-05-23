@@ -1,22 +1,22 @@
 package app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import app.model.RacingCarName;
 import app.model.Race;
 import app.model.RacingCar;
 import app.view.Receiver;
 import app.view.Viewer;
 
 public class Game {
-    private final Receiver receiver;
     private final Race race;
-    private final Viewer viewer;
     private int gameCount;
 
-    public Game(Receiver receiver, Race race, Viewer viewer) {
-        this.receiver = receiver;
+    public Game(Race race) {
         this.race = race;
-        this.viewer = viewer;
     }
 
     public void play() {
@@ -27,48 +27,34 @@ public class Game {
 
     private void setGame() {
         try {
-            List<String> carNames = receiver.askCarNames();
+            List<String> carNames = Receiver.askCarNames();
             race.setRace(carNames);
-            gameCount = receiver.askGameCount();
-        } catch(RacingCar.InputCarNameException error) {
+            gameCount = Receiver.askGameCount();
+        } catch(RacingCarName.InputCarNameException error) {
             System.err.println(error.getMessage());
             setGame();
         }
     }
 
     private void startGame() {
-        viewer.printStarter();
-        viewer.printStatus(
-                racingCarsToNameList(race.getRacingCars()),
-                racingCarsToPositionList(race.getRacingCars())
-        );
+        Viewer.printStarter();
+        Viewer.printStatus(racingCarsToMap(race.getRacingCars()));
         for (int i=0; i<gameCount; i++) {
             race.proceedRace();
-            viewer.printStatus(
-                    racingCarsToNameList(race.getRacingCars()),
-                    racingCarsToPositionList(race.getRacingCars())
-            );
+            Viewer.printStatus(racingCarsToMap(race.getRacingCars()));
         }
     }
 
     private void finishGame() {
         List<String> winners = race.getWinners();
-        viewer.printWinners(winners);
+        Viewer.printWinners(winners);
     }
 
-    static List<String> racingCarsToNameList(List<RacingCar> racingCars) {
-        List<String> nameList = new ArrayList<>();
+    private Map<String, Integer> racingCarsToMap(List<RacingCar> racingCars) {
+        Map<String, Integer> racingCarMap = new HashMap<>();
         for (RacingCar racingCar: racingCars) {
-            nameList.add(racingCar.getCarName());
+            racingCarMap.put(racingCar.getCarName(), racingCar.getCarPosition());
         }
-        return nameList;
-    }
-
-    static List<Integer> racingCarsToPositionList(List<RacingCar> racingCars) {
-        List<Integer> positionList = new ArrayList<>();
-        for (RacingCar racingCar: racingCars) {
-            positionList.add(racingCar.getCarPosition());
-        }
-        return positionList;
+        return racingCarMap;
     }
 }

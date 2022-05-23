@@ -1,23 +1,24 @@
 package app.view;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.System.out;
 
 public class Viewer {
-    public void printStarter() {
-        out.println("\n실행 결과");
+    public static void printStarter() {
+        out.println(System.lineSeparator() + "실행 결과");
     }
 
-    public void printStatus(List<String> names, List<Integer> positions) {
-        for (int i=0; i<names.size(); i++) {
-            out.printf("%s : %s%n", names.get(i), "-".repeat(positions.get(i)));
+    public static void printStatus(Map<String, Integer> racingCars) {
+        for (Map.Entry<String, Integer> racingCar: racingCars.entrySet()) {
+            out.printf("%s : %s" + System.lineSeparator(), racingCar.getKey(), "-".repeat(racingCar.getValue()));
         }
         out.println("");
     }
 
-    public void printWinners(List<String> winners) {
+    public static void printWinners(List<String> winners) {
         String winnerNames = String.join(", ", winners);
-        out.printf("%s가 최종 우승했습니다.%n", winnerNames);
+        out.printf("%s가 최종 우승했습니다." + System.lineSeparator(), winnerNames);
     }
 }
